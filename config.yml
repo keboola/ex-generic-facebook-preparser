@@ -1,0 +1,3 @@
+class: Keboola\ExGenericModule\FacebookPreParser
+level: 50
+type: response
