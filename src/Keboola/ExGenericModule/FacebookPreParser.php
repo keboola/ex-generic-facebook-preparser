@@ -61,6 +61,7 @@ class FacebookPreParser implements ResponseModuleInterface
                             "end_time" => $value->end_time,
                             "value" => $val
                         ];
+                        continue;
                     }
                     if (is_object($value->value)) {
                         foreach((array)$value->value as $key1 => $value1) {
@@ -82,6 +83,7 @@ class FacebookPreParser implements ResponseModuleInterface
                                 ];
                             }
                         }
+                        continue;
                     }
                 }
                 $metric->values = $parsedMetrics;
