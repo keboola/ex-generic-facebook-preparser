@@ -3,40 +3,47 @@ namespace Keboola\ExGenericModule;
 
 use Keboola\GenericExtractor\Modules\ResponseModuleInterface;
 use Keboola\Juicer\Config\JobConfig;
-use Keboola\Juicer\Exception\UserException;
 use Keboola\Utils\Utils;
 
 class FacebookPreParser implements ResponseModuleInterface
 {
     /**
+     * @param $response
+     * @param JobConfig $jobConfig
      * @return array
      */
     public function process($response, JobConfig $jobConfig)
     {
-        if (empty($jobConfig->getConfig()['parseObject'])) {
+
+        $config = $jobConfig->getConfig();
+        if (!isset($config['parser']['method'])) {
             return $response;
         }
 
-        $config = $jobConfig->getConfig()['parseObject'];
+        $path = empty($config['dataField'])
+            ? "."
+            : $config['dataField'];
 
-        if (!is_object($response)) {
-            if (empty($response)) {
-                return [];
-            }
-
-            throw new UserException("Data in response is not an object, while one was expected!");
+        if ($config['parser']['method'] == 'facebook.insights') {
+            return $this->flatten($path, $response);
         }
 
-        $path = empty($config['path'])
-            ? "."
-            : $config['path'];
+        return $response;
+    }
 
-
-        $result = [];
-
-        foreach (Utils::getDataFromPath($path, $response, '.') as $metric) {
+    /**
+     *
+     * Creates key value pairs for `values` property up to 2 leves of nesting
+     *
+     * @param $path
+     * @param $data
+     * @return array
+     * @throws \Keboola\Utils\Exception\NoDataFoundException
+     */
+    protected function flatten($path, $data) {
+        foreach (Utils::getDataFromPath($path, $data, '.') as $metric) {
             if ($metric->values && is_array($metric->values)) {
-                $parsedMetric = [];
+                $parsedMetrics = [];
                 foreach($metric->values as $value) {
                     if (!$value->end_time) {
                         continue;
@@ -48,18 +55,18 @@ class FacebookPreParser implements ResponseModuleInterface
                         } else {
                             $val = $value->value;
                         }
-                        $parsedMetric[] = (object) [
+                        $parsedMetrics[] = (object) [
                             "key1" => "",
                             "key2" => "",
                             "end_time" => $value->end_time,
-                            "value" => $val 
-                        ];                        
+                            "value" => $val
+                        ];
                     }
                     if (is_object($value->value)) {
                         foreach((array)$value->value as $key1 => $value1) {
                             if (is_object($value1)) {
                                 foreach((array) $value1 as $key2 => $value2) {
-                                    $parsedMetric[] = (object) [
+                                    $parsedMetrics[] = (object) [
                                         "key1" => $key1,
                                         "key2" => $key2,
                                         "end_time" => $value->end_time,
@@ -67,7 +74,7 @@ class FacebookPreParser implements ResponseModuleInterface
                                     ];
                                 }
                             } else {
-                                $parsedMetric[] = (object) [
+                                $parsedMetrics[] = (object) [
                                     "key1" => $key1,
                                     "key2" => "",
                                     "end_time" => $value->end_time,
@@ -75,15 +82,17 @@ class FacebookPreParser implements ResponseModuleInterface
                                 ];
                             }
                         }
-                    } 
+                    }
                 }
-                $metric->values = (object) $parsedMetric;
+                $metric->values = $parsedMetrics;
             }
             $result[] = $metric;
         }
-        return (object) $result;
+        if ($path != '.') {
+            $data->$path =  $result;
+        } else {
+            $data = $result;
+        }
+        return $data;
     }
-
-    protected function convertToKeyValue() {}
-
 }

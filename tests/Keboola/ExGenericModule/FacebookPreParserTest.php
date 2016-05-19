@@ -1,21 +1,19 @@
 <?php
 
-use Keboola\Juicer\Config\JobConfig,
-    Keboola\Juicer\Exception\UserException;
+use Keboola\Juicer\Config\JobConfig;
 
 class FacebookPreParserTest extends \PHPUnit_Framework_TestCase
 {
-    public function testProcessFlat()
+    public function testProcessInsightsFlat()
     {
         $cfg = JobConfig::create([
-            'endpoint' => '/insights',
-            'parseObject' => [
-                'path' => 'data'
+            'endpoint' => 'insights',
+            'dataField' => 'data',
+            'parser' => [
+                'method' => 'facebook.insights'
             ]
         ]);
-
         $module = new \Keboola\ExGenericModule\FacebookPreParser();
-
         $jsonResponse = <<<JSON
 {
    "data": [
@@ -37,41 +35,46 @@ class FacebookPreParserTest extends \PHPUnit_Framework_TestCase
       }
    ],
    "paging": {
-      "previous": "https://graph.facebook.com/v2.6/177057932317550/insights?access_token=EAACEdEose0cBAIY6lSVIVZBZBZC7hAZAEtk22lHbbtEWknQEQftC9tRPpu9ARtWZCuXVlAHlNoS88ilHTHPxi5I1gf4fDXp5ozem2KCBiGompf691lZBQjpmksqZCAvLPgGz7mGX3nTQNsPhNyqCv4yOkO18asTZCsNIKaqjrrzjHwZDZD&since=1462889963&until=1463149163",
-      "next": "https://graph.facebook.com/v2.6/177057932317550/insights?access_token=EAACEdEose0cBAIY6lSVIVZBZBZC7hAZAEtk22lHbbtEWknQEQftC9tRPpu9ARtWZCuXVlAHlNoS88ilHTHPxi5I1gf4fDXp5ozem2KCBiGompf691lZBQjpmksqZCAvLPgGz7mGX3nTQNsPhNyqCv4yOkO18asTZCsNIKaqjrrzjHwZDZD&since=1463408363&until=1463667563"
+      "previous": "prev",
+      "next": "next"
    }
 }
 JSON;
 
-
         $response = json_decode($jsonResponse);
-
         $data = $module->process($response, $cfg);
         $this->assertEquals((object) [
+            'data' => [
                 (object) [
-                'name' => 'page_fan_adds_unique',
-                'period' => 'day',
-                'values' => (object) [
-                    (object) ['key1' => '', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
-                    (object) ['key1' => '', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 2 ],
-                ],
-                'title' => 'Daily New Likes',
-                'id' => '177057932317550/insights/page_fan_adds_unique/day'
+                    'name' => 'page_fan_adds_unique',
+                    'period' => 'day',
+                    'values' => [
+                        (object) ['key1' => '', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
+                        (object) ['key1' => '', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 2 ],
+
+                    ],
+                    'title' => 'Daily New Likes',
+                    'id' => '177057932317550/insights/page_fan_adds_unique/day'
+                ]
+            ],
+            'paging' => (object) [
+                'previous' => 'prev',
+                'next' => 'next'
             ]
         ], $data);
     }
 
-    public function testProcessNested1Level()
+    public function testProcessInsightsNested1Level()
     {
         $cfg = JobConfig::create([
-            'endpoint' => '/insights',
-            'parseObject' => [
-                'path' => 'data'
+            'endpoint' => 'insights',
+            'dataField' => 'data',
+            'parser' => [
+                'method' => 'facebook.insights'
             ]
+
         ]);
-
         $module = new \Keboola\ExGenericModule\FacebookPreParser();
-
         $jsonResponse = <<<JSON
 {
    "data": [
@@ -101,45 +104,48 @@ JSON;
       }
    ],
    "paging": {
-      "previous": "https://graph.facebook.com/v2.6/177057932317550/insights?access_token=EAACEdEose0cBAIY6lSVIVZBZBZC7hAZAEtk22lHbbtEWknQEQftC9tRPpu9ARtWZCuXVlAHlNoS88ilHTHPxi5I1gf4fDXp5ozem2KCBiGompf691lZBQjpmksqZCAvLPgGz7mGX3nTQNsPhNyqCv4yOkO18asTZCsNIKaqjrrzjHwZDZD&since=1462889963&until=1463149163",
-      "next": "https://graph.facebook.com/v2.6/177057932317550/insights?access_token=EAACEdEose0cBAIY6lSVIVZBZBZC7hAZAEtk22lHbbtEWknQEQftC9tRPpu9ARtWZCuXVlAHlNoS88ilHTHPxi5I1gf4fDXp5ozem2KCBiGompf691lZBQjpmksqZCAvLPgGz7mGX3nTQNsPhNyqCv4yOkO18asTZCsNIKaqjrrzjHwZDZD&since=1463408363&until=1463667563"
+      "previous": "prev",
+      "next": "next"
    }
 }
 JSON;
 
-
         $response = json_decode($jsonResponse);
-
         $data = $module->process($response, $cfg);
         $this->assertEquals((object) [
+            'data' => [
                 (object) [
-                'name' => 'page_impressions_by_story_type',
-                'period' => 'days_28',
-                'values' => (object) [
-                    (object) ['key1' => 'fan', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 269 ],
-                    (object) ['key1' => 'mention', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 567 ],
-                    (object) ['key1' => 'other', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 0 ],
-                    (object) ['key1' => 'fan', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 270 ],
-                    (object) ['key1' => 'mention', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 565 ],
-                    (object) ['key1' => 'other', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 0 ],
-                ],
-                'title' => '28 Days Viral Impressions By Story Type',
-                'id' => '177057932317550/insights/page_impressions_by_story_type/days_28'
+                    'name' => 'page_impressions_by_story_type',
+                    'period' => 'days_28',
+                    'values' => [
+                        (object) ['key1' => 'fan', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 269 ],
+                        (object) ['key1' => 'mention', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 567 ],
+                        (object) ['key1' => 'other', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 0 ],
+                        (object) ['key1' => 'fan', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 270 ],
+                        (object) ['key1' => 'mention', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 565 ],
+                        (object) ['key1' => 'other', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 0 ],
+                    ],
+                    'title' => '28 Days Viral Impressions By Story Type',
+                    'id' => '177057932317550/insights/page_impressions_by_story_type/days_28'
+                ]
+            ],
+            'paging' => (object) [
+                'previous' => 'prev',
+                'next' => 'next'
             ]
         ], $data);
     }
 
-    public function testProcessNested2Levels()
+    public function testProcessInsightsNested2Levels()
     {
         $cfg = JobConfig::create([
-            'endpoint' => '/insights',
-            'parseObject' => [
-                'path' => 'data'
+            'endpoint' => 'insights',
+            'dataField' => 'data',
+            'parser' => [
+                'method' => 'facebook.insights'
             ]
         ]);
-
         $module = new \Keboola\ExGenericModule\FacebookPreParser();
-
         $jsonResponse = <<<JSON
 {
    "data": [
@@ -183,38 +189,41 @@ JSON;
       }
    ],
    "paging": {
-      "previous": "https://graph.facebook.com/v2.6/177057932317550/insights?access_token=EAACEdEose0cBAIY6lSVIVZBZBZC7hAZAEtk22lHbbtEWknQEQftC9tRPpu9ARtWZCuXVlAHlNoS88ilHTHPxi5I1gf4fDXp5ozem2KCBiGompf691lZBQjpmksqZCAvLPgGz7mGX3nTQNsPhNyqCv4yOkO18asTZCsNIKaqjrrzjHwZDZD&since=1462889963&until=1463149163",
-      "next": "https://graph.facebook.com/v2.6/177057932317550/insights?access_token=EAACEdEose0cBAIY6lSVIVZBZBZC7hAZAEtk22lHbbtEWknQEQftC9tRPpu9ARtWZCuXVlAHlNoS88ilHTHPxi5I1gf4fDXp5ozem2KCBiGompf691lZBQjpmksqZCAvLPgGz7mGX3nTQNsPhNyqCv4yOkO18asTZCsNIKaqjrrzjHwZDZD&since=1463408363&until=1463667563"
+      "previous": "prev",
+      "next": "next"
    }
 }
 JSON;
 
-
         $response = json_decode($jsonResponse);
-
         $data = $module->process($response, $cfg);
         $this->assertEquals((object) [
+            'data' => [
                 (object) [
-                'name' => 'page_views_by_age_gender_logged_in_unique',
-                'period' => 'day',
-                'values' => (object) [
-                    (object) ['key1' => '13-17', 'key2' => 'U', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
-                    (object) ['key1' => '13-17', 'key2' => 'F', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
-                    (object) ['key1' => '13-17', 'key2' => 'M', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
-                    (object) ['key1' => '18-24', 'key2' => 'U', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 2 ],
-                    (object) ['key1' => '18-24', 'key2' => 'F', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 2 ],
-                    (object) ['key1' => '18-24', 'key2' => 'M', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 2 ],
-                    (object) ['key1' => '13-17', 'key2' => 'U', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 1 ],
-                    (object) ['key1' => '13-17', 'key2' => 'F', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 2 ],
-                    (object) ['key1' => '13-17', 'key2' => 'M', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 3 ],
-                    (object) ['key1' => '18-24', 'key2' => 'U', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 3 ],
-                    (object) ['key1' => '18-24', 'key2' => 'F', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 2 ],
-                    (object) ['key1' => '18-24', 'key2' => 'M', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 1 ],
-                ],
-                'title' => 'Daily Total logged-in views count per Page by age and gender',
-                'id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day'
+                    'name' => 'page_views_by_age_gender_logged_in_unique',
+                    'period' => 'day',
+                    'values' => [
+                        (object) ['key1' => '13-17', 'key2' => 'U', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
+                        (object) ['key1' => '13-17', 'key2' => 'F', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
+                        (object) ['key1' => '13-17', 'key2' => 'M', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
+                        (object) ['key1' => '18-24', 'key2' => 'U', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 2 ],
+                        (object) ['key1' => '18-24', 'key2' => 'F', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 2 ],
+                        (object) ['key1' => '18-24', 'key2' => 'M', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 2 ],
+                        (object) ['key1' => '13-17', 'key2' => 'U', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 1 ],
+                        (object) ['key1' => '13-17', 'key2' => 'F', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 2 ],
+                        (object) ['key1' => '13-17', 'key2' => 'M', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 3 ],
+                        (object) ['key1' => '18-24', 'key2' => 'U', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 3 ],
+                        (object) ['key1' => '18-24', 'key2' => 'F', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 2 ],
+                        (object) ['key1' => '18-24', 'key2' => 'M', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 1 ],
+                    ],
+                    'title' => 'Daily Total logged-in views count per Page by age and gender',
+                    'id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day'
+                ]
+            ],
+            'paging' => (object) [
+                'previous' => 'prev',
+                'next' => 'next'
             ]
         ], $data);
-
     }
 }
