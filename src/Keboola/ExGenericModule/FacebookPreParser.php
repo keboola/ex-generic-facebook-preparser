@@ -45,7 +45,12 @@ class FacebookPreParser implements ResponseModuleInterface
             if ($metric->values && is_array($metric->values)) {
                 $parsedMetrics = [];
                 foreach($metric->values as $value) {
-                    if (!$value->end_time) {
+
+                    $end_time = '';
+                    if (isset($value->end_time)) {
+                        $end_time = $value->end_time;
+                    }
+                    if (!isset($value->end_time) && $metric->period != 'lifetime') {
                         continue;
                     }
                     // scalar value or empty value
@@ -58,7 +63,7 @@ class FacebookPreParser implements ResponseModuleInterface
                         $parsedMetrics[] = (object) [
                             "key1" => "",
                             "key2" => "",
-                            "end_time" => $value->end_time,
+                            "end_time" => $end_time,
                             "value" => $val
                         ];
                         continue;
@@ -70,7 +75,7 @@ class FacebookPreParser implements ResponseModuleInterface
                                     $parsedMetrics[] = (object) [
                                         "key1" => $key1,
                                         "key2" => $key2,
-                                        "end_time" => $value->end_time,
+                                        "end_time" => $end_time,
                                         "value" => $value2
                                     ];
                                 }
@@ -78,7 +83,7 @@ class FacebookPreParser implements ResponseModuleInterface
                                 $parsedMetrics[] = (object) [
                                     "key1" => $key1,
                                     "key2" => "",
-                                    "end_time" => $value->end_time,
+                                    "end_time" => $end_time,
                                     "value" => $value1
                                 ];
                             }

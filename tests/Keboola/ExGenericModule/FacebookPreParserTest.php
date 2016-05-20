@@ -226,4 +226,63 @@ JSON;
             ]
         ], $data);
     }
+
+    public function testProcessInsightsLifetine()
+    {
+        $cfg = JobConfig::create([
+            'endpoint' => 'insights',
+            'dataField' => 'data',
+            'parser' => [
+                'method' => 'facebook.insights'
+            ]
+        ]);
+        $module = new \Keboola\ExGenericModule\FacebookPreParser();
+        $jsonResponse = <<<JSON
+{
+   "data": [
+      {
+         "name": "page_fan_adds_unique",
+         "period": "lifetime",
+         "values": [
+            {
+               "value": 1
+            },
+            {
+               "value": 2
+            }
+         ],
+         "title": "Daily New Likes",
+         "id": "177057932317550/insights/page_fan_adds_unique"
+      }
+   ],
+   "paging": {
+      "previous": "prev",
+      "next": "next"
+   }
+}
+JSON;
+
+        $response = json_decode($jsonResponse);
+        $data = $module->process($response, $cfg);
+        $this->assertEquals((object) [
+            'data' => [
+                (object) [
+                    'name' => 'page_fan_adds_unique',
+                    'period' => 'lifetime',
+                    'values' => [
+                        (object) ['key1' => '', 'key2' => '', 'end_time' => '', 'value' => 1 ],
+                        (object) ['key1' => '', 'key2' => '', 'end_time' => '', 'value' => 2 ],
+
+                    ],
+                    'title' => 'Daily New Likes',
+                    'id' => '177057932317550/insights/page_fan_adds_unique'
+                ]
+            ],
+            'paging' => (object) [
+                'previous' => 'prev',
+                'next' => 'next'
+            ]
+        ], $data);
+    }
+
 }
