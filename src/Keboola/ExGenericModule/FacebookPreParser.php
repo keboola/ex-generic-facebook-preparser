@@ -61,6 +61,7 @@ class FacebookPreParser implements ResponseModuleInterface
                             $val = $value->value;
                         }
                         $parsedMetrics[] = (object) [
+                            "id" => $metric->id,
                             "key1" => "",
                             "key2" => "",
                             "end_time" => $end_time,
@@ -73,6 +74,7 @@ class FacebookPreParser implements ResponseModuleInterface
                             if (is_object($value1)) {
                                 foreach((array) $value1 as $key2 => $value2) {
                                     $parsedMetrics[] = (object) [
+                                        "id" => $metric->id,
                                         "key1" => $key1,
                                         "key2" => $key2,
                                         "end_time" => $end_time,
@@ -81,6 +83,7 @@ class FacebookPreParser implements ResponseModuleInterface
                                 }
                             } else {
                                 $parsedMetrics[] = (object) [
+                                    "id" => $metric->id,
                                     "key1" => $key1,
                                     "key2" => "",
                                     "end_time" => $end_time,

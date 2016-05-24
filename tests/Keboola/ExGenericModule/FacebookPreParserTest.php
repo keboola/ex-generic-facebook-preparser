@@ -49,8 +49,8 @@ JSON;
                     'name' => 'page_fan_adds_unique',
                     'period' => 'day',
                     'values' => [
-                        (object) ['key1' => '', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
-                        (object) ['key1' => '', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 2 ],
+                        (object) ['id' => '177057932317550/insights/page_fan_adds_unique/day', 'key1' => '', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
+                        (object) ['id' => '177057932317550/insights/page_fan_adds_unique/day', 'key1' => '', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 2 ],
 
                     ],
                     'title' => 'Daily New Likes',
@@ -118,12 +118,12 @@ JSON;
                     'name' => 'page_impressions_by_story_type',
                     'period' => 'days_28',
                     'values' => [
-                        (object) ['key1' => 'fan', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 269 ],
-                        (object) ['key1' => 'mention', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 567 ],
-                        (object) ['key1' => 'other', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 0 ],
-                        (object) ['key1' => 'fan', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 270 ],
-                        (object) ['key1' => 'mention', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 565 ],
-                        (object) ['key1' => 'other', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 0 ],
+                        (object) ['id' => '177057932317550/insights/page_impressions_by_story_type/days_28', 'key1' => 'fan', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 269 ],
+                        (object) ['id' => '177057932317550/insights/page_impressions_by_story_type/days_28', 'key1' => 'mention', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 567 ],
+                        (object) ['id' => '177057932317550/insights/page_impressions_by_story_type/days_28', 'key1' => 'other', 'key2' => '', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 0 ],
+                        (object) ['id' => '177057932317550/insights/page_impressions_by_story_type/days_28', 'key1' => 'fan', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 270 ],
+                        (object) ['id' => '177057932317550/insights/page_impressions_by_story_type/days_28', 'key1' => 'mention', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 565 ],
+                        (object) ['id' => '177057932317550/insights/page_impressions_by_story_type/days_28', 'key1' => 'other', 'key2' => '', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 0 ],
                     ],
                     'title' => '28 Days Viral Impressions By Story Type',
                     'id' => '177057932317550/insights/page_impressions_by_story_type/days_28'
@@ -203,18 +203,18 @@ JSON;
                     'name' => 'page_views_by_age_gender_logged_in_unique',
                     'period' => 'day',
                     'values' => [
-                        (object) ['key1' => '13-17', 'key2' => 'U', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
-                        (object) ['key1' => '13-17', 'key2' => 'F', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
-                        (object) ['key1' => '13-17', 'key2' => 'M', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
-                        (object) ['key1' => '18-24', 'key2' => 'U', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 2 ],
-                        (object) ['key1' => '18-24', 'key2' => 'F', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 2 ],
-                        (object) ['key1' => '18-24', 'key2' => 'M', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 2 ],
-                        (object) ['key1' => '13-17', 'key2' => 'U', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 1 ],
-                        (object) ['key1' => '13-17', 'key2' => 'F', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 2 ],
-                        (object) ['key1' => '13-17', 'key2' => 'M', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 3 ],
-                        (object) ['key1' => '18-24', 'key2' => 'U', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 3 ],
-                        (object) ['key1' => '18-24', 'key2' => 'F', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 2 ],
-                        (object) ['key1' => '18-24', 'key2' => 'M', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 1 ],
+                        (object) ['id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day', 'key1' => '13-17', 'key2' => 'U', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
+                        (object) ['id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day', 'key1' => '13-17', 'key2' => 'F', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
+                        (object) ['id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day', 'key1' => '13-17', 'key2' => 'M', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 1 ],
+                        (object) ['id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day', 'key1' => '18-24', 'key2' => 'U', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 2 ],
+                        (object) ['id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day', 'key1' => '18-24', 'key2' => 'F', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 2 ],
+                        (object) ['id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day', 'key1' => '18-24', 'key2' => 'M', 'end_time' => '2016-05-15T07:00:00+0000', 'value' => 2 ],
+                        (object) ['id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day', 'key1' => '13-17', 'key2' => 'U', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 1 ],
+                        (object) ['id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day', 'key1' => '13-17', 'key2' => 'F', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 2 ],
+                        (object) ['id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day', 'key1' => '13-17', 'key2' => 'M', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 3 ],
+                        (object) ['id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day', 'key1' => '18-24', 'key2' => 'U', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 3 ],
+                        (object) ['id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day', 'key1' => '18-24', 'key2' => 'F', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 2 ],
+                        (object) ['id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day', 'key1' => '18-24', 'key2' => 'M', 'end_time' => '2016-05-16T07:00:00+0000', 'value' => 1 ],
                     ],
                     'title' => 'Daily Total logged-in views count per Page by age and gender',
                     'id' => '177057932317550/insights/page_views_by_age_gender_logged_in_unique/day'
@@ -227,7 +227,7 @@ JSON;
         ], $data);
     }
 
-    public function testProcessInsightsLifetine()
+    public function testProcessInsightsLifetime()
     {
         $cfg = JobConfig::create([
             'endpoint' => 'insights',
@@ -270,8 +270,8 @@ JSON;
                     'name' => 'page_fan_adds_unique',
                     'period' => 'lifetime',
                     'values' => [
-                        (object) ['key1' => '', 'key2' => '', 'end_time' => '', 'value' => 1 ],
-                        (object) ['key1' => '', 'key2' => '', 'end_time' => '', 'value' => 2 ],
+                        (object) ['id' => '177057932317550/insights/page_fan_adds_unique', 'key1' => '', 'key2' => '', 'end_time' => '', 'value' => 1 ],
+                        (object) ['id' => '177057932317550/insights/page_fan_adds_unique', 'key1' => '', 'key2' => '', 'end_time' => '', 'value' => 2 ],
 
                     ],
                     'title' => 'Daily New Likes',
